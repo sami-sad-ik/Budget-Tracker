@@ -13,7 +13,7 @@ import useAxiosPublic from "../Hooks/useAxiosPublic";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../Hooks/useAuth";
 
-const AddExpenseForm = ({ closeModal, isOpen }) => {
+const AddExpenseForm = ({ closeModal, isOpen, refetch }) => {
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const { mutateAsync } = useMutation({
@@ -23,6 +23,7 @@ const AddExpenseForm = ({ closeModal, isOpen }) => {
     },
     onSuccess: () => {
       toast.success("Income added successfully");
+      refetch();
     },
   });
   const handleAddExpense = async (e) => {
@@ -38,7 +39,6 @@ const AddExpenseForm = ({ closeModal, isOpen }) => {
       notes,
       time: Date.now(),
     };
-    console.log(expenseForm);
     if (amount <= 0) {
       return toast.error("Please input a valid amount!!");
     }
@@ -110,23 +110,24 @@ const AddExpenseForm = ({ closeModal, isOpen }) => {
                     <select
                       required
                       name="expenseCategory"
+                      defaultValue=""
                       className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-red-300 bg-gray-200 text-gray-900">
-                      <option value="" disabled selected hidden>
+                      <option value="" disabled hidden>
                         --Select Expense Category--
                       </option>
                       <option value="rent">Rent</option>
                       <option value="bill">Bill</option>
-                      <option value="foodGroceries">Food/Groceries</option>
+                      <option value="food_groceries">Food/Groceries</option>
                       <option value="transport">Transport</option>
                       <option value="health">Health</option>
-                      <option value="clothingAccessories">
+                      <option value="clothing_accessories">
                         Clothing/Accessories
                       </option>
                       <option value="education">Education</option>
                       <option value="family">Family</option>
                       <option value="entertainment">Entertainment</option>
-                      <option value="savingsFund">Savings/Fund</option>
-                      <option value="giftDonations">Gift/Donations</option>
+                      <option value="savings_fund">Savings/Fund</option>
+                      <option value="gift_donations">Gift/Donations</option>
                       <option value="other">Other</option>
                     </select>
                   </div>
@@ -160,6 +161,7 @@ AddExpenseForm.propTypes = {
   bookingInfo: PropTypes.object,
   closeModal: PropTypes.func,
   isOpen: PropTypes.bool,
+  refetch: PropTypes.func,
 };
 
 export default AddExpenseForm;

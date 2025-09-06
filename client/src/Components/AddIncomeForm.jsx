@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const AddIncomeForm = ({ closeModal, isOpen, refetch }) => {
-  console.log(refetch);
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const { mutateAsync } = useMutation({
@@ -24,7 +23,7 @@ const AddIncomeForm = ({ closeModal, isOpen, refetch }) => {
     },
     onSuccess: () => {
       toast.success("Income added successfully");
-      //   refetch();
+      refetch();
       //   queryClient.invalidateQueries(["balance"]);
     },
   });
@@ -117,7 +116,7 @@ const AddIncomeForm = ({ closeModal, isOpen, refetch }) => {
                       <option value="salary">Salary</option>
                       <option value="freelance">Freelance</option>
                       <option value="business">Business</option>
-                      <option value="pocketMoney">Pocket money</option>
+                      <option value="pocket_money">Pocket money</option>
                       <option value="gift">Gift</option>
                       <option value="other">Other</option>
                     </select>
@@ -151,6 +150,7 @@ AddIncomeForm.propTypes = {
   bookingInfo: PropTypes.object,
   closeModal: PropTypes.func,
   isOpen: PropTypes.bool,
+  refetch: PropTypes.func,
 };
 
 export default AddIncomeForm;

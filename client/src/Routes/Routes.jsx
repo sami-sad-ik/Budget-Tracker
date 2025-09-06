@@ -5,11 +5,13 @@ import SignUp from "../Pages/Signup";
 import Login from "../Pages/Login";
 import Income from "../Pages/Income";
 import Expense from "../Pages/Expense";
+import ErrorPage from "../Pages/ErrorPage";
 
 const Routes = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

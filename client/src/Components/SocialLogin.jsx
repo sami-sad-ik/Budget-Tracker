@@ -1,6 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SocialLogin = () => {
   const { googleSignIn } = useAuth();
@@ -10,6 +11,7 @@ const SocialLogin = () => {
       await googleSignIn();
       navigate("/");
     } catch (err) {
+      toast.error(err.message);
       console.log(err.message);
     }
   };

@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const port = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:5173", "https://budget-buddy-pr.web.app"],
   credentials: true,
 };
 
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bgu1g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -51,10 +51,54 @@ async function run() {
       res.send(result);
     });
 
+    //delete an income
+    app.delete("/income/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await incomeCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    //get the expenses
+    app.get("/all-incomes/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { user: email };
+      const result = await incomeCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    //get the expenses
+    app.get("/all-expenses/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { user: email };
+      const result = await expenseCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    //get the expenses
+    app.get("/expenses/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { user: email };
+      const result = await expenseCollection
+        .find(query)
+        .sort({ time: -1 })
+        .limit(5)
+        .toArray();
+      res.send(result);
+    });
+
     // save a expense in database
     app.post("/expense", async (req, res) => {
       const expenseData = req.body;
       const result = await expenseCollection.insertOne(expenseData);
+      res.send(result);
+    });
+
+    //delete an expense
+    app.delete("/expense/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await expenseCollection.deleteOne(query);
       res.send(result);
     });
   } finally {

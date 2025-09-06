@@ -13,20 +13,24 @@ const Navbar = () => {
         }>
         Home
       </NavLink>
-      <NavLink
-        to={`/income`}
-        className={({ isActive }) =>
-          ` ${isActive ? "text-cyan-500 " : "hover:text-cyan-400"}`
-        }>
-        Incomes
-      </NavLink>
-      <NavLink
-        to={`/expense`}
-        className={({ isActive }) =>
-          ` ${isActive ? "text-cyan-500 " : "hover:text-cyan-400"}`
-        }>
-        Expenses
-      </NavLink>
+      {user && (
+        <>
+          <NavLink
+            to={`/income`}
+            className={({ isActive }) =>
+              ` ${isActive ? "text-cyan-500 " : "hover:text-cyan-400"}`
+            }>
+            Incomes
+          </NavLink>
+          <NavLink
+            to={`/expense`}
+            className={({ isActive }) =>
+              ` ${isActive ? "text-cyan-500 " : "hover:text-cyan-400"}`
+            }>
+            Expenses
+          </NavLink>
+        </>
+      )}
       {!user && (
         <NavLink
           to={`/login`}
@@ -75,7 +79,7 @@ const Navbar = () => {
           </Link>
         </div>
         {/* large screen */}
-        <div className="navbar-center hidden lg:flex ">
+        <div className="navbar-center hidden lg:flex -ml-8">
           <ul className="menu hidden lg:flex flex-wrap items-center menu-horizontal uppercase text-white font-bold gap-7 px-1">
             {navLinks}
           </ul>
